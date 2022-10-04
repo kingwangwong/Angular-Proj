@@ -8,6 +8,7 @@ import { ManagerEditComponent } from './manager-edit.component';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 
 import { ManagersComponent } from './managers.component';
+import { ManagerData } from './manager-data';
 
 @NgModule({
     declarations: [

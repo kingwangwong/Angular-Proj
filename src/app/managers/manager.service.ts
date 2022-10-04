@@ -1,6 +1,6 @@
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, catchError, tap, throwError, map } from "rxjs";
+import { Observable, catchError, tap, throwError, map, of } from "rxjs";
 
 import { IManager } from "./manager";
 
@@ -11,12 +11,12 @@ export class ManagerService {
   // If using Stackblitz, replace the url with this line
   // because Stackblitz can't find the api folder.
   // private managerUrl = 'assets/managers/managers.json';
-  private managerUrl = 'api/managers/managers.json';
+  private managersUrl = 'managers/managers';
 
   constructor(private http: HttpClient) { }
 
   getManagers(): Observable<IManager[]> {
-    return this.http.get<IManager[]>(this.managerUrl)
+    return this.http.get<IManager[]>(this.managersUrl)
       .pipe(
         tap(data => console.log('All: ', JSON.stringify(data))),
         catchError(this.handleError)
@@ -26,10 +26,47 @@ export class ManagerService {
   // Get one manager
   // Since we are working with a json file, we can only retrieve all managers
   // So retrieve all managers and then find the one we want using 'map'
-  getManager(id: number): Observable<IManager | undefined> {
-    return this.getManagers()
+  getManager(id: number): Observable<IManager > {
+    if(id==0){
+        return of(this.initializeManager());
+    }
+    const url= `${this.managersUrl}/${id}`;
+    return this.http.get<IManager>(url)
       .pipe(
-        map((managers: IManager[]) => managers.find(p => p.managerId === id))
+        //map((managers: IManager[]) => managers.find(p => p.id === id))
+        tap(data=> console.log('getManager: ' + JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+  createManager(manager: IManager): Observable<IManager> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    manager.id = 0;//null
+    return this.http.post<IManager>(this.managersUrl, manager, { headers })
+      .pipe(
+        tap(data => console.log('createManager: ' + JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+  }
+
+  deleteManager(id: number): Observable<{}> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const url = `${this.managersUrl}/${id}`;
+    return this.http.delete<IManager>(url, { headers })
+      .pipe(
+        tap(data => console.log('deleteManager: ' + id)),
+        catchError(this.handleError)
+      );
+  }
+
+  updateManager(manager: IManager): Observable<IManager> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const url = `${this.managersUrl}/${manager.id}`;
+    return this.http.put<IManager>(url, manager, { headers })
+      .pipe(
+        tap(() => console.log('updateManager: ' + manager.id)),
+        // Return the manager on an update
+        map(() => manager),
+        catchError(this.handleError)
       );
   }
 
@@ -48,5 +85,14 @@ export class ManagerService {
     console.error(errorMessage);
     return throwError(() => errorMessage);
   }
-
+  private initializeManager(): IManager {
+    return {
+        id: 0,
+        managerName: '',
+        company: '',
+        description: '',
+        rating: 0,
+        imageUrl: ''
+    }
+  }
 }

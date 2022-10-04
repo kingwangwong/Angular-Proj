@@ -15,14 +15,15 @@ import { GenericValidator } from '../shared/generic-validator';
   templateUrl: './manager-edit.component.html'
 })
 export class ManagerEditComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
+  @ViewChildren(FormControlName, { read: ElementRef })
+  formInputElements!: ElementRef[];
 
   pageTitle = 'Manager Edit';
-  errorMessage: string;
-  managerForm: FormGroup;
+  errorMessage!: string;
+  managerForm!: FormGroup;
 
-  manager: Manager;
-  private sub: Subscription;
+  manager!: IManager;
+  private sub!: Subscription;
 
   // Use with the generic validation message class
   displayMessage: { [key: string]: string } = {};
@@ -46,10 +47,10 @@ export class ManagerEditComponent implements OnInit, AfterViewInit, OnDestroy {
         minlength: 'Manager name must be at least three characters.',
         maxlength: 'Manager name cannot exceed 50 characters.'
       },
-      managerCode: {
-        required: 'Manager code is required.'
+      company: {
+        required: 'Manager company is required.'
       },
-      starRating: {
+      rating: {
         range: 'Rate the manager between 1 (lowest) and 5 (highest).'
       }
     };
@@ -98,15 +99,7 @@ export class ManagerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  addTag(): void {
-    this.tags.push(new FormControl());
-  }
-
-  deleteTag(index: number): void {
-    this.tags.removeAt(index);
-    this.tags.markAsDirty();
-  }
-
+  
   getManager(id: number): void {
     this.managerService.getManager(id)
       .subscribe({
@@ -130,11 +123,11 @@ export class ManagerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     // Update the data on the form
     this.managerForm.patchValue({
       managerName: this.manager.managerName,
-      managerCode: this.manager.managerCode,
-      starRating: this.manager.starRating,
+      company: this.manager.company,
+      rating: this.manager.rating,
       description: this.manager.description
     });
-    this.managerForm.setControl('tags', this.fb.array(this.manager.tags || []));
+    //this.managerForm.setControl('tags', this.fb.array(this.manager.tags || []));
   }
 
   deleteManager(): void {

@@ -15,7 +15,7 @@ import { ManagerModule } from './managers/manager.module';
   ],
   imports: [
     BrowserModule,
-    FormsModule,
+    //FormsModule,
     HttpClientModule,
     RouterModule.forRoot([
       

@@ -42,7 +42,7 @@
                                  [style.margin.px]='imageMargin'>
                         </td>
                         <td>
-                            <a [routerLink]="['/managers', manager.managerId]">
+                            <a [routerLink]="['/managers', manager.id]">
                                 {{ manager.managerName }}
                             </a>
                         </td>
@@ -53,7 +53,7 @@
                         </td>
                         <td>
                             <button class="btn btn-outline-primary btn-sm"
-                                    [routerLink]="['/managers',manager.managerId,'edit']">
+                                    [routerLink]="['/managers',manager.id,'edit']">
                                         Edit</button>
                         </td>
                     </tr>
