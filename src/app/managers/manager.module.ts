@@ -1,38 +1,37 @@
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { SharedModule } from '../shared/shared.module';
-import { ManagerDetailComponent } from './manager-detail.component';
-import { ManagerDetailGuard } from './manager-detail.guard';
-import { ManagerEditComponent } from './manager-edit.component';
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import { ManagersComponent } from './managers.component';
+import { SharedModule } from '../shared/shared.module';
+
+// Imports for loading & configuring the in-memory web api
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { ManagerData } from './manager-data';
 
-@NgModule({
-    declarations: [
-        ManagersComponent,
-        ManagerDetailComponent,
-        ManagerEditComponent
-    ],
-    imports: [
-        InMemoryWebApiModule.forRoot(ManagerData),
-        ReactiveFormsModule,
-        RouterModule.forChild([
-            { path: 'managers', component: ManagersComponent },
-            { 
-              path: 'managers/:id', 
-              canActivate: [ManagerDetailGuard],
-              component: ManagerDetailComponent 
-            },
-            {
-                path: 'managers/:id/edit',
-                component: ManagerEditComponent
-            }
-          ]),
-        SharedModule
-    ]
-})
+import { ManagerListComponent } from './manager-list.component';
+import { ManagerDetailComponent } from './manager-detail.component';
+import { ManagerEditComponent } from './manager-edit.component';
+import { ManagerEditGuard } from './manager-edit.guard';
 
+@NgModule({
+  imports: [
+    SharedModule,
+    ReactiveFormsModule,
+    InMemoryWebApiModule.forRoot(ManagerData),
+    RouterModule.forChild([
+      { path: 'managers', component: ManagerListComponent },
+      { path: 'managers/:id', component: ManagerDetailComponent },
+      {
+        path: 'managers/:id/edit',
+        canDeactivate: [ManagerEditGuard],
+        component: ManagerEditComponent
+      }
+    ])
+  ],
+  declarations: [
+    ManagerListComponent,
+    ManagerDetailComponent,
+    ManagerEditComponent
+  ]
+})
 export class ManagerModule { }

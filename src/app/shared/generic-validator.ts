@@ -25,7 +25,7 @@ export class GenericValidator {
   // controlName1: 'Validation Message.',
   // controlName2: 'Validation Message.'
   processMessages(container: FormGroup): { [key: string]: string } {
-    const messages = {};
+    const messages: any = {};
     for (const controlKey in container.controls) {
       if (container.controls.hasOwnProperty(controlKey)) {
         const c = container.controls[controlKey];
@@ -51,16 +51,4 @@ export class GenericValidator {
     return messages;
   }
 
-  getErrorCount(container: FormGroup): number {
-    let errorCount = 0;
-    for (const controlKey in container.controls) {
-      if (container.controls.hasOwnProperty(controlKey)) {
-        if (container.controls[controlKey].errors) {
-          errorCount += Object.keys(container.controls[controlKey].errors).length;
-          console.log(errorCount);
-        }
-      }
-    }
-    return errorCount;
-  }
 }

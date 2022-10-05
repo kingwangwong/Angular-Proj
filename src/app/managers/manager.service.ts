@@ -1,47 +1,43 @@
-import { HttpClient, HttpHeaders, HttpErrorResponse } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Observable, catchError, tap, throwError, map, of } from "rxjs";
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
-import { IManager } from "./manager";
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, tap, map } from 'rxjs/operators';
+
+import { Manager } from './manager';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ManagerService {
-  // If using Stackblitz, replace the url with this line
-  // because Stackblitz can't find the api folder.
-  // private managerUrl = 'assets/managers/managers.json';
-  private managersUrl = 'managers/managers';
+  private ManagersUrl = 'api/managers';
 
   constructor(private http: HttpClient) { }
 
-  getManagers(): Observable<IManager[]> {
-    return this.http.get<IManager[]>(this.managersUrl)
+  getManagers(): Observable<Manager[]> {
+    return this.http.get<Manager[]>(this.ManagersUrl)
       .pipe(
-        tap(data => console.log('All: ', JSON.stringify(data))),
+        tap(data => console.log(JSON.stringify(data))),
         catchError(this.handleError)
       );
   }
 
-  // Get one manager
-  // Since we are working with a json file, we can only retrieve all managers
-  // So retrieve all managers and then find the one we want using 'map'
-  getManager(id: number): Observable<IManager > {
-    if(id==0){
-        return of(this.initializeManager());
+  getManager(id: number): Observable<Manager> {
+    if (id === 0) {
+      return of(this.initializeManager());
     }
-    const url= `${this.managersUrl}/${id}`;
-    return this.http.get<IManager>(url)
+    const url = `${this.ManagersUrl}/${id}`;
+    return this.http.get<Manager>(url)
       .pipe(
-        //map((managers: IManager[]) => managers.find(p => p.id === id))
-        tap(data=> console.log('getManager: ' + JSON.stringify(data))),
+        tap(data => console.log('getManager: ' + JSON.stringify(data))),
         catchError(this.handleError)
       );
   }
-  createManager(manager: IManager): Observable<IManager> {
+
+  createManager(Manager: Manager): Observable<Manager> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    manager.id = 0;//null
-    return this.http.post<IManager>(this.managersUrl, manager, { headers })
+    Manager.id = null;
+    return this.http.post<Manager>(this.ManagersUrl, Manager, { headers })
       .pipe(
         tap(data => console.log('createManager: ' + JSON.stringify(data))),
         catchError(this.handleError)
@@ -50,22 +46,22 @@ export class ManagerService {
 
   deleteManager(id: number): Observable<{}> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const url = `${this.managersUrl}/${id}`;
-    return this.http.delete<IManager>(url, { headers })
+    const url = `${this.ManagersUrl}/${id}`;
+    return this.http.delete<Manager>(url, { headers })
       .pipe(
         tap(data => console.log('deleteManager: ' + id)),
         catchError(this.handleError)
       );
   }
 
-  updateManager(manager: IManager): Observable<IManager> {
+  updateManager(Manager: Manager): Observable<Manager> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const url = `${this.managersUrl}/${manager.id}`;
-    return this.http.put<IManager>(url, manager, { headers })
+    const url = `${this.ManagersUrl}/${Manager.id}`;
+    return this.http.put<Manager>(url, Manager, { headers })
       .pipe(
-        tap(() => console.log('updateManager: ' + manager.id)),
-        // Return the manager on an update
-        map(() => manager),
+        tap(() => console.log('updateManager: ' + Manager.id)),
+        // Return the Manager on an update
+        map(() => Manager),
         catchError(this.handleError)
       );
   }
@@ -85,14 +81,16 @@ export class ManagerService {
     console.error(errorMessage);
     return throwError(() => errorMessage);
   }
-  private initializeManager(): IManager {
+
+  private initializeManager(): Manager {
+    // Return an initialized object
     return {
-        id: 0,
-        managerName: '',
-        company: '',
-        description: '',
-        rating: 0,
-        imageUrl: ''
-    }
+      id: 0,
+      managerName: '',
+      company: '',
+      description: '',
+      rating: 0,
+      imageUrl: ''
+    };
   }
 }

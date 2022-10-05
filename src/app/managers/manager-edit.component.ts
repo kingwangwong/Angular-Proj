@@ -5,24 +5,23 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription, fromEvent, merge } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
-import { IManager } from './manager';
+import { Manager } from './manager';
 import { ManagerService } from './manager.service';
 
-import { NumberValidators } from '../shared/number-validator';
+import { NumberValidators } from '../shared/number.validator';
 import { GenericValidator } from '../shared/generic-validator';
 
 @Component({
   templateUrl: './manager-edit.component.html'
 })
 export class ManagerEditComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChildren(FormControlName, { read: ElementRef })
-  formInputElements!: ElementRef[];
+  @ViewChildren(FormControlName, { read: ElementRef }) formInputElements!: ElementRef[];
 
   pageTitle = 'Manager Edit';
-  errorMessage!: string;
+  errorMessage = '';
   managerForm!: FormGroup;
 
-  manager!: IManager;
+  manager!: Manager;
   private sub!: Subscription;
 
   // Use with the generic validation message class
@@ -30,9 +29,6 @@ export class ManagerEditComponent implements OnInit, AfterViewInit, OnDestroy {
   private validationMessages: { [key: string]: { [key: string]: string } };
   private genericValidator: GenericValidator;
 
-  get tags(): FormArray {
-    return this.managerForm.get('tags') as FormArray;
-  }
 
   constructor(private fb: FormBuilder,
               private route: ActivatedRoute,
@@ -44,11 +40,11 @@ export class ManagerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     this.validationMessages = {
       managerName: {
         required: 'Manager name is required.',
-        minlength: 'Manager name must be at least three characters.',
+        minlength: 'Manager name must be at least two characters.',
         maxlength: 'Manager name cannot exceed 50 characters.'
       },
       company: {
-        required: 'Manager company is required.'
+        required: 'Manager code is required.'
       },
       rating: {
         range: 'Rate the manager between 1 (lowest) and 5 (highest).'
@@ -66,15 +62,14 @@ export class ManagerEditComponent implements OnInit, AfterViewInit, OnDestroy {
                          Validators.minLength(2),
                          Validators.maxLength(50)]],
       company: ['', Validators.required],
-      description: '',
       rating: ['', NumberValidators.range(1, 5)],
-      imageUrl: ''
+      description: ''
     });
 
     // Read the manager Id from the route parameter
     this.sub = this.route.paramMap.subscribe(
       params => {
-        const id = +params.get('id');
+        const id = Number(this.route.snapshot.paramMap.get('id'));
         this.getManager(id);
       }
     );
@@ -99,16 +94,16 @@ export class ManagerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  
+
   getManager(id: number): void {
     this.managerService.getManager(id)
       .subscribe({
-        next: (manager: IManager) => this.displayManager(manager),
+        next: (manager: Manager) => this.displayManager(manager),
         error: err => this.errorMessage = err
       });
   }
 
-  displayManager(manager: IManager): void {
+  displayManager(manager: Manager): void {
     if (this.managerForm) {
       this.managerForm.reset();
     }
@@ -123,7 +118,6 @@ export class ManagerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     // Update the data on the form
     this.managerForm.patchValue({
       managerName: this.manager.managerName,
-      company: this.manager.company,
       rating: this.manager.rating,
       description: this.manager.description
     });
@@ -134,7 +128,7 @@ export class ManagerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.manager.id === 0) {
       // Don't delete, it was never saved.
       this.onSaveComplete();
-    } else {
+    } else if (this.manager.id) {
       if (confirm(`Really delete the manager: ${this.manager.managerName}?`)) {
         this.managerService.deleteManager(this.manager.id)
           .subscribe({
@@ -153,7 +147,10 @@ export class ManagerEditComponent implements OnInit, AfterViewInit, OnDestroy {
         if (p.id === 0) {
           this.managerService.createManager(p)
             .subscribe({
-              next: () => this.onSaveComplete(),
+              next: x => {
+                console.log(x);
+                return this.onSaveComplete();
+              },
               error: err => this.errorMessage = err
             });
         } else {
