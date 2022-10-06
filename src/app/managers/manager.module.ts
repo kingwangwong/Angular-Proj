@@ -1,26 +1,37 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
+
 import { SharedModule } from '../shared/shared.module';
+
+// Imports for loading & configuring the in-memory web api
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { ManagerData } from './manager-data';
+
+import { ManagerListComponent } from './manager-list.component';
 import { ManagerDetailComponent } from './manager-detail.component';
-import { ManagerDetailGuard } from './manager-detail.guard';
-import { ManagersComponent } from './managers.component';
+import { ManagerEditComponent } from './manager-edit.component';
+import { ManagerEditGuard } from './manager-edit.guard';
 
 @NgModule({
-    declarations: [
-        ManagersComponent,
-        ManagerDetailComponent
-    ],
-    imports: [
-        RouterModule.forChild([
-            { path: 'managers', component: ManagersComponent },
-            { 
-              path: 'managers/:id', 
-              canActivate: [ManagerDetailGuard],
-              component: ManagerDetailComponent 
-            }
-          ]),
-        SharedModule
-    ]
+  imports: [
+    SharedModule,
+    ReactiveFormsModule,
+    InMemoryWebApiModule.forRoot(ManagerData),
+    RouterModule.forChild([
+      { path: 'managers', component: ManagerListComponent },
+      { path: 'managers/:id', component: ManagerDetailComponent },
+      {
+        path: 'managers/:id/edit',
+        canDeactivate: [ManagerEditGuard],
+        component: ManagerEditComponent
+      }
+    ])
+  ],
+  declarations: [
+    ManagerListComponent,
+    ManagerDetailComponent,
+    ManagerEditComponent
+  ]
 })
-
 export class ManagerModule { }

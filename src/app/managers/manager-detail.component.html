@@ -1,48 +1,64 @@
-<div class='card'>
-    <div class='card-header'>
-      {{pageTitle + ': ' + manager?.managerName}}
-    </div>
-  
-    <div class='card-body'
-         *ngIf='manager'>
-      <div class='row'>
-        <div class='col-md-8'>
-          <div class='row'>
-            <div class='col-md-4'>Name:</div>
-            <div class='col-md-8'>{{manager.managerName}}</div>
-          </div>
-          <div class='row'>
-            <div class='col-md-4'>Company:</div>
-            <div class='col-md-8'>{{manager.company}}</div>
-          </div>
-          <div class='row'>
-            <div class='col-md-4'>Description:</div>
-            <div class='col-md-8'>{{manager.description}}</div>
-          </div>
-          <div class='row'>
-            <div class='col-md-4'>5 Star Rating:</div>
-            <div class='col-md-8'>
-              <pm-star [rating]='manager.rating'>
-              </pm-star>
-            </div>
-          </div>
+<div class="card">
+  <div class="card-header"
+       *ngIf="manager">
+    {{pageTitle + ": " + manager.managerName}}
+  </div>
+
+  <div class="card-body"
+       *ngIf="manager">
+
+    <div class="row">
+
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-3">Name:</div>
+          <div class="col-md-6">{{manager.managerName}}</div>
         </div>
-  
-        <div class='col-md-4'>
-          <img class='center-block img-responsive'
-               [style.width.px]='200'
-               [style.margin.px]='2'
-               [src]='manager.imageUrl'
-               [title]='manager.managerName'>
+        <div class="row">
+          <div class="col-md-3">Company:</div>
+          <div class="col-md-6">{{manager.company}}</div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">Description:</div>
+          <div class="col-md-6">{{manager.description}}</div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">5 Star Rating:</div>
+          <div class="col-md-6">
+            <pm-star [rating]="manager.rating">
+            </pm-star>
+          </div>
         </div>
       </div>
+
+      <div class="col-md-4"
+           *ngIf="manager.imageUrl">
+        <img class="center-block img-responsive"
+             [style.height.px]="150"
+             [style.margin.px]="2"
+             [src]="manager.imageUrl"
+             [title]="manager.managerName">
+      </div>
     </div>
-  
-    <div class='card-footer'>
-      <button class='btn btn-outline-secondary'
-              style='width:80px'
-              (click)='onBack()'>
-        <i class='fa fa-chevron-left'></i> Back
-      </button>
+
+    <div class="row mt-4">
+      <div class="col-md-4">
+        <button class="btn btn-outline-secondary mr-3"
+                style="width:80px"
+                (click)="onBack()">
+          <i class="fa fa-chevron-left"></i> Back
+        </button>
+        <button class="btn btn-outline-primary"
+                style="width:80px"
+                [routerLink]="['/managers', manager.id, 'edit']">
+          Edit
+        </button>
+      </div>
     </div>
+
   </div>
+
+  <div class="alert alert-danger"
+       *ngIf="errorMessage">{{errorMessage}}
+  </div>
+</div>

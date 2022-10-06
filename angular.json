@@ -1,11 +1,18 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "2d72c579-f48f-4305-b91e-620845d5f0e6"
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
     "apm": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "pm",
@@ -20,8 +27,7 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets",
-              "src/api"
+              "src/assets"
             ],
             "styles": [
               "src/styles.css"
@@ -99,7 +105,5 @@
       }
     }
   },
-  "cli": {
-    "analytics": "a5a3699a-303c-4bde-88b8-3260d96a6683"
-  },
+  "defaultProject": "apm"
 }
