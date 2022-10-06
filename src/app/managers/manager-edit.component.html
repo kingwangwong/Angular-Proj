@@ -26,16 +26,16 @@
 
       <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label"
-               for="managerCompanyId">Manager Company</label>
+               for="companyId">Manager Company</label>
         <div class="col-md-8">
           <input class="form-control"
-                 id="managerCompanyId"
+                 id="companyId"
                  type="text"
                  placeholder="Company (required)"
-                 formControlName="managerCompany"
-                 [ngClass]="{'is-invalid': displayMessage.managerCompany}" />
+                 formControlName="company"
+                 [ngClass]="{'is-invalid': displayMessage.company}" />
           <span class="invalid-feedback">
-            {{displayMessage.managerCompany}}
+            {{displayMessage.company}}
           </span>
         </div>
       </div>

@@ -44,7 +44,7 @@ export class ManagerEditComponent implements OnInit, AfterViewInit, OnDestroy {
         maxlength: 'Manager name cannot exceed 50 characters.'
       },
       company: {
-        required: 'Manager code is required.'
+        required: 'Manager company is required.'
       },
       rating: {
         range: 'Rate the manager between 1 (lowest) and 5 (highest).'
@@ -118,6 +118,7 @@ export class ManagerEditComponent implements OnInit, AfterViewInit, OnDestroy {
     // Update the data on the form
     this.managerForm.patchValue({
       managerName: this.manager.managerName,
+      company: this.manager.company,
       rating: this.manager.rating,
       description: this.manager.description
     });
