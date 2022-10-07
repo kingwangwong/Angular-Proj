@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
+import { slideInAnimation } from './app.animation';
 
 @Component({
   selector: 'pm-root',
+  animations: [slideInAnimation],
   template: `
   <nav class='navbar navbar-expand navbar-light bg-light'>
     <a class='navbar-brand'>{{pageTitle}}</a>
@@ -14,8 +16,9 @@ import { Component } from '@angular/core';
       [routerLink]="['/managers/0/edit']">Add a Manager Review</a></li>
     </ul>
 </nav>
-<div class='container'>
-<router-outlet></router-outlet>
+<div class='container'
+  [@slideInAnimation]="o.isActivated ? o.activatedRoute : ''">
+<router-outlet #o="outlet"></router-outlet>
 </div>
   `
   ,

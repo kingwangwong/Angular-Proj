@@ -63,7 +63,8 @@ export class ManagerEditComponent implements OnInit, AfterViewInit, OnDestroy {
                          Validators.maxLength(50)]],
       company: ['', Validators.required],
       rating: ['', NumberValidators.range(1, 5)],
-      description: ''
+      description: '',
+      imageUrl: ''
     });
 
     // Read the manager Id from the route parameter
@@ -120,7 +121,8 @@ export class ManagerEditComponent implements OnInit, AfterViewInit, OnDestroy {
       managerName: this.manager.managerName,
       company: this.manager.company,
       rating: this.manager.rating,
-      description: this.manager.description
+      description: this.manager.description,
+      imageUrl: this.manager.imageUrl
     });
     //this.managerForm.setControl('tags', this.fb.array(this.manager.tags || []));
   }
