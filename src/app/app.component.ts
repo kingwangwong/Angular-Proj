@@ -9,7 +9,7 @@ import { slideInAnimation } from './app.animation';
     <a class='navbar-brand'>{{pageTitle}}</a>
     <ul class='navbar-nav'>
       <li class='nav-item'><a class='nav-link' routerLinkActive='active' 
-      [routerLink]="['/welcome']">Home</a></li>
+      [routerLink]="['/welcome']">Welcome</a></li>
       <li class='nav-item'><a class='nav-link' routerLinkActive='active' 
       [routerLink]="['/managers']">Managers List</a></li>
       <li class='nav-item'><a class='nav-link' routerLinkActive='active' 

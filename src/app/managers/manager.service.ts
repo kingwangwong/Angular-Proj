@@ -89,6 +89,7 @@ export class ManagerService {
       managerName: '',
       company: '',
       description: '',
+      tags: [''],
       rating: 0,
       imageUrl: ''
     };

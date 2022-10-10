@@ -11,6 +11,7 @@ export class ManagerData implements InMemoryDbService {
         managerName: "Angela",
         company: "McDonalds",
         description: "Manager at mcdonalds",
+        tags: ['honest', 'hard-working'],
         rating: 3.2,
         imageUrl: "assets/images/fred.jpg"
     },
@@ -19,6 +20,7 @@ export class ManagerData implements InMemoryDbService {
         managerName: "Shawn",
         company: "WhichWich",
         description: "Sandwiches.",
+        tags: ['respectful', 'happy'],
         rating: 4.3,
         imageUrl: "assets/images/boom.jpg"
     },
@@ -27,6 +29,7 @@ export class ManagerData implements InMemoryDbService {
         managerName: "Tyler",
         company: "PizzaModd",
         description: "Pizza restaurant.",
+        tags: ['honest', 'respectful'],
         rating: 3.9,
         imageUrl: "assets/images/lg.jpg"
     },
@@ -35,6 +38,7 @@ export class ManagerData implements InMemoryDbService {
         managerName: "Abdul",
         company: "MagiciansRed",
         description: "Magical.",
+        tags: ['happy', 'punctual'],
         rating: 2.2,
         imageUrl: "assets/images/sad.jpg"
     },
@@ -43,6 +47,7 @@ export class ManagerData implements InMemoryDbService {
         managerName: "Caesar",
         company: "Arby's",
         description: "Deli and burger.",
+        tags: ['honest', 'respectful'],
         rating: 1.2,
         imageUrl: "assets/images/alan.jpg"
     }
