@@ -4,6 +4,7 @@ export interface Manager {
   managerName: string;
   company: string;
   description: string;
+  tags?: string[];
   rating: number;
   imageUrl: string;
 }

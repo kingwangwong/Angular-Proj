@@ -29,6 +29,9 @@ export class ManagerEditComponent implements OnInit, AfterViewInit, OnDestroy {
   private validationMessages: { [key: string]: { [key: string]: string } };
   private genericValidator: GenericValidator;
 
+  get tags(): FormArray {
+    return this.managerForm.get('tags') as FormArray;
+  }
 
   constructor(private fb: FormBuilder,
               private route: ActivatedRoute,
@@ -64,6 +67,7 @@ export class ManagerEditComponent implements OnInit, AfterViewInit, OnDestroy {
       company: ['', Validators.required],
       rating: ['', NumberValidators.range(1, 5)],
       description: '',
+      tags: this.fb.array([]),
       imageUrl: ''
     });
 
@@ -94,7 +98,14 @@ export class ManagerEditComponent implements OnInit, AfterViewInit, OnDestroy {
       this.displayMessage = this.genericValidator.processMessages(this.managerForm);
     });
   }
+  addTag(): void {
+    this.tags.push(new FormControl());
+  }
 
+  deleteTag(index: number): void {
+    this.tags.removeAt(index);
+    this.tags.markAsDirty();
+  }
 
   getManager(id: number): void {
     this.managerService.getManager(id)
@@ -124,7 +135,7 @@ export class ManagerEditComponent implements OnInit, AfterViewInit, OnDestroy {
       description: this.manager.description,
       imageUrl: this.manager.imageUrl
     });
-    //this.managerForm.setControl('tags', this.fb.array(this.manager.tags || []));
+    this.managerForm.setControl('tags', this.fb.array(this.manager.tags || []));
   }
 
   deleteManager(): void {

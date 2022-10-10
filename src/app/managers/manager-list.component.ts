@@ -28,18 +28,18 @@ export class ManagerListComponent implements OnInit {
 
   constructor(private ManagerService: ManagerService) { }
 
-  performFilter(filterBy: string): Manager[] {
+  performFilter2(filterBy: string): Manager[] {
     filterBy = filterBy.toLocaleLowerCase();
     return this.managers.filter((manager: Manager) =>
       manager.managerName.toLocaleLowerCase().indexOf(filterBy) !== -1);
   }
 
   // Checks both the manager name and tags
-  performFilter2(filterBy: string): Manager[] {
+  performFilter(filterBy: string): Manager[] {
     filterBy = filterBy.toLocaleLowerCase();
     return this.managers.filter((manager: Manager) =>
-      manager.managerName.toLocaleLowerCase().indexOf(filterBy) !== -1 )//||
-        //(manager.tags && manager.tags.some(tag => tag.toLocaleLowerCase().indexOf(filterBy) !== -1)));
+      manager.managerName.toLocaleLowerCase().indexOf(filterBy) !== -1 ||
+        (manager.tags && manager.tags.some(tag => tag.toLocaleLowerCase().indexOf(filterBy) !== -1)));
   }
 
   toggleImage(): void {
