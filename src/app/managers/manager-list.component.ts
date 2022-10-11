@@ -28,11 +28,23 @@ export class ManagerListComponent implements OnInit {
 
   constructor(private ManagerService: ManagerService) { }
 
-  performFilter2(filterBy: string): Manager[] {
-    filterBy = filterBy.toLocaleLowerCase();
-    return this.managers.filter((manager: Manager) =>
-      manager.managerName.toLocaleLowerCase().indexOf(filterBy) !== -1);
+  nameSort() {
+    this.filteredManagers = this.managers.sort((a, b) => (a.managerName < b.managerName ? -1 : 1));
+    console.log(this.filteredManagers)
   }
+  companySort() {
+    this.filteredManagers = this.managers.sort((a, b) => (a.company < b.company ? -1 : 1));
+    console.log(this.filteredManagers)
+  }
+  ratingSort() {
+    this.filteredManagers = this.managers.sort((a, b) => (a.rating < b.rating ? -1 : 1));
+    console.log(this.filteredManagers)
+  }
+  // performFilter(filterBy: string): Manager[] {
+  //   filterBy = filterBy.toLocaleLowerCase();
+  //   return this.managers.filter((manager: Manager) =>
+  //     manager.managerName.toLocaleLowerCase().indexOf(filterBy) !== -1);
+  // }
 
   // Checks both the manager name and tags
   performFilter(filterBy: string): Manager[] {

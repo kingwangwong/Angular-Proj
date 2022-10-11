@@ -48,7 +48,7 @@ export class ManagerData implements InMemoryDbService {
         company: "Arby's",
         description: "Deli and burger.",
         tags: ['honest', 'respectful'],
-        rating: 1.2,
+        rating: 3.7,
         imageUrl: "assets/images/alan.jpg"
     }
     ];
