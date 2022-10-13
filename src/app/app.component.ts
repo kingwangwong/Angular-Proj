@@ -11,9 +11,9 @@ import { slideInAnimation } from './app.animation';
       <li class='nav-item'><a class='nav-link' routerLinkActive='active' 
       [routerLink]="['/welcome']">Welcome</a></li>
       <li class='nav-item'><a class='nav-link' routerLinkActive='active' 
-      [routerLink]="['/managers']">Managers List</a></li>
+      [routerLink]="['/managers']">Reviews</a></li>
       <li class='nav-item'><a class='nav-link' routerLinkActive='active' 
-      [routerLink]="['/managers/0/edit']">Add a Manager Review</a></li>
+      [routerLink]="['/managers/0/edit']">Add a New Review</a></li>
     </ul>
 </nav>
 <div class='container'
